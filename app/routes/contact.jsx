@@ -1,33 +1,50 @@
-
 import { useForm } from "react-hook-form";
 import { postUserFun } from "../../api";
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as Yup from 'yup'
+
+const validationSchema = Yup.object({
+    name:Yup.string().required("Name filed is required").min(3),
+    email:Yup.string().email().required("Email is required"),
+    phone: Yup.string().max(10).required('Phone number is required').matches(/^[0-9]{10}$/, 'Invalid phone number'),
+    city: Yup.string().required("City is required"),
+    password: Yup.string().required("password is required").min(6).max(18),
+    
+})
 
 const Contact = () => {
+  const {
+    register,
+    reset,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    resolver:yupResolver(validationSchema)
+  });
 
-  const { register, reset, formState:{errors}, handleSubmit } = useForm()
+  const postData = async (data) => {
+    try {
+      console.log(data);
 
-  // const postData = async(user) =>{
-  //   try {
-  //     console.log(user)
-  //     return user
-  //   } catch (error) {
-  //     console.log("error in post user", error)
-  //   }
-  // }
+      const result =await postUserFun(data);
+        reset()
+      //   return data
+    } catch (error) {
+      console.log("error in post user", error);
+    }
+  };
   return (
     <>
       <div className=" container mx-auto">
-      <h3 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-3xl">
-  <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
-    Contact Form
-  </span>{" "}
- 
-</h3>
-
+        <h3 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-3xl">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+            Contact Form
+          </span>{" "}
+        </h3>
       </div>
 
       <div className="container mx-auto">
-        <form method='post'  onSubmit={handleSubmit(action)}>
+        <form method="post" onSubmit={handleSubmit(postData)}>
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div>
               <label
@@ -40,12 +57,16 @@ const Contact = () => {
                 type="text"
                 id="first_name"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                {...register('name',{required:true})}
+                {...register("name", { required: true })}
                 name="name"
                 placeholder="John"
                 required=""
               />
-              {errors.name && <p className="mt-3" style={{color:"red"}}>Name is required</p>}
+              {errors.name && (
+                <p className="mt-3" style={{ color: "red" }}>
+                  {errors?.name?.message}
+                </p>
+              )}
             </div>
 
             <div>
@@ -61,10 +82,15 @@ const Contact = () => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="123-45-678"
                 name="phone"
-                {...register('phone',{required:true})}
+                {...register("phone", { required: true })}
                 // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-                required=""
+                
               />
+               {errors.phone && (
+                <p className="mt-3" style={{ color: "red" }}>
+                  {errors?.phone?.message}
+                </p>
+              )}
             </div>
             {/* <div>
               <label
@@ -96,9 +122,14 @@ const Contact = () => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Indore"
                 name="city"
-                {...register('city',{required:true})}
+                {...register("city", { required: true })}
                 required=""
               />
+              {errors.city && (
+                <p className="mt-3" style={{ color: "red" }}>
+                  {errors?.city?.message}
+                </p>
+              )}
             </div>
           </div>
           <div className="mb-6">
@@ -114,9 +145,13 @@ const Contact = () => {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="john.doe@company.com"
               name="email"
-              {...register('email',{required:true})}
-              
+              {...register("email", { required: true })}
             />
+            {errors.email && (
+                <p className="mt-3" style={{ color: "red" }}>
+                  {errors?.email?.message}
+                </p>
+              )}
           </div>
           <div className="mb-6">
             <label
@@ -131,9 +166,13 @@ const Contact = () => {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="•••••••••"
               name="password"
-              {...register('password',{required:true})}
-              
+              {...register("password", { required: true })}
             />
+            {errors.password && (
+                <p className="mt-3" style={{ color: "red" }}>
+                  {errors?.password?.message}
+                </p>
+              )}
           </div>
           {/* <div className="mb-6">
             <label
@@ -158,7 +197,7 @@ const Contact = () => {
                 type="checkbox"
                 defaultValue=""
                 className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                required=""
+                
               />
             </div>
             <label
@@ -189,8 +228,7 @@ const Contact = () => {
 
 export default Contact;
 
-
-export async function action(data){
+// export async function action(data){
 // console.log("request",data)
 // const {request} = data
 // const formData =await request.formData()
@@ -198,9 +236,7 @@ export async function action(data){
 // const user = Object.fromEntries(formData)
 // const result = await postUserFun(user)
 
-const result = postUserFun(data)
+// const result = postUserFun(data)
 
-
-
-return {}
-}
+// return {}
+// }
