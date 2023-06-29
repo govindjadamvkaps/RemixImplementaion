@@ -39,3 +39,15 @@ export const postUserFun = async (data) => {
     console.log("error in post user ", error);
   }
 };
+
+
+export async function getData(){
+  try {
+    let data = await axios.get(`https://jsonplaceholder.typicode.com/photos`)
+    data =await data.data
+    return data
+
+  } catch (error) {
+    console.log("Error in fetching data",error)
+  }
+}

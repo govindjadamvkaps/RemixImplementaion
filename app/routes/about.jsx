@@ -1,6 +1,13 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import React from "react";
 import { getUserFun } from "../../api";
+import AboutCss from '../styles/about.css'
+
+export function links(){
+  return[{
+    rel:"stylesheet", href: AboutCss 
+  }]
+}
 
 const About = () => {
   const data = useLoaderData();
