@@ -36,13 +36,13 @@ export const validator = withZod(
 );
 
 const Contacts = () => {
-  const data = useActionData();
-  const {
-    register,
-    reset,
-    formState: { errors },
-    handleSubmit,
-  } = useForm();
+  // const data = useActionData();
+  // const {
+  //   register,
+  //   reset,
+  //   formState: { errors },
+  //   handleSubmit,
+  // } = useForm();
 
   // const postData = async(user) =>{
   //   try {
