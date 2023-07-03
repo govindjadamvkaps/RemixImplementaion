@@ -12,6 +12,15 @@ const validationSchema = Yup.object({
     
 })
 
+export function meta(){
+  return [{
+    title: "Contact page",
+    description:
+      "This is a contact us page and in this page call a rest api get api in json placeholder",
+}]
+
+}
+
 const Contact = () => {
   const {
     register,

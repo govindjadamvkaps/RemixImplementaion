@@ -3,6 +3,15 @@ import React from "react";
 import { getUserFun } from "../../api";
 import AboutCss from '../styles/about.css'
 
+
+export function meta(){
+  return [{
+    title: "About page",
+    description:
+      "This is aabout us page and in this page call a rest api get api in json placeholder",
+}]
+
+}
 export function links(){
   return[{
     rel:"stylesheet", href: AboutCss 
@@ -93,8 +102,11 @@ const About = () => {
 
 export default About;
 
-export async function loader() {
-  
+export async function loader({request,params}) {
+  let url = new URL(request.url)
+  url = url.pathname
+
+  // console.log("aasdfdf",url)
   const data = getUserFun()
   return data
 }

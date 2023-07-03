@@ -13,6 +13,14 @@ import NavBar from "./components/NavBar";
 import FooTer from "./components/FooTer";
 import 'react-toastify/dist/ReactToastify.css';
 
+export function meta(){
+  return[ {
+    title: "About page",
+    description:
+      "This becomes the nice preview on search results.",
+}]
+
+}
 
 export function links() {
   return [

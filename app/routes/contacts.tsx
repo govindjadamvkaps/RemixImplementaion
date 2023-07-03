@@ -8,6 +8,16 @@ import {MyInput} from '../components/MyInput'
 import { MySubmitButton } from "../components/MySubmitButton";
 import { DataFunctionArgs } from "@remix-run/node";
 
+
+export function meta(){
+  return [{
+    title: "contacts page",
+    description:
+      "This is a contact us page and in this page call a rest api get api in json placeholder",
+}]
+
+}
+
 export const validator = withZod(
   z.object({
 

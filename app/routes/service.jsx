@@ -22,7 +22,14 @@ export const loader = async()=>{
   return data
 }
 
+export function meta(){
+  return [{
+    title: "Service page",
+    description:
+      "This is a service us page and in this page call a rest api get api in json placeholder",
+}]
 
+}
 
 const Service = () => {
    let data = useLoaderData()
